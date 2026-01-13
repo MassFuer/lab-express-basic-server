@@ -40,6 +40,23 @@ app.get("/api/articles", (req, res) => {
   res.json(articlesData);
 });
 
+// advanced routing
+// route to get one specific project based on its id
+app.get("/api/projects/:id", (req, res) => {
+  // route queries are not visible on the actual route, but only in request
+  // add query with ?key=value&key2=value2 in the url
+  console.log("Queries", req.query);
+
+  // this create a route parameter called id
+  const { id } = req.params;
+  const project = projectsData.find((project) => project.id === id);
+  if (project) {
+    res.json(project);
+  } else {
+    res.status(404).json({ error: "Project not found" });
+  }
+});
+
 //notfound route
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "not-found.html"));
